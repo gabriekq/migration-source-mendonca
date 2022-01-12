@@ -8,9 +8,11 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.mendonca.mendoncamigrationsources.batch.DBtasklet;
 import com.mendonca.mendoncamigrationsources.model.Person;
 
 
@@ -19,6 +21,10 @@ import com.mendonca.mendoncamigrationsources.model.Person;
 @EnableBatchProcessing
 public class BatchConfiguration {
 
+	@Autowired
+	private DBtasklet tasklet;
+	
+	
 	@Bean
 	public Job job(JobBuilderFactory jobBuilderFactory,
 			       StepBuilderFactory stepBuilderFactory,
@@ -32,11 +38,20 @@ public class BatchConfiguration {
 		        .writer(itemWriter)
 		        .build();
 		
+		Step step2 = stepBuilderFactory.get("ETL-Assert")
+				.tasklet(tasklet)
+				.build();
+		
+		
 	    return	jobBuilderFactory.get("ETL-Load")
 		        .incrementer(new RunIdIncrementer())
 		        .start(step)
+		        .next(step2)
 		        .build();
 		}
+	
+	
+	
 	
 	
 	

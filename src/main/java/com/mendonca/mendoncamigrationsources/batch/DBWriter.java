@@ -26,7 +26,7 @@ public class DBWriter implements ItemWriter<Person>  {
 	@Override
 	public void write(List<? extends Person> items) throws Exception {
 		
-	   String sqlInsertPg = "INSERT INTO person (id, firstName, lastName, age , street ) VALUES ( :id_p ,:firstName_p ,:lastName_p ,:age_p ,:street_p ); ";
+	   String sqlInsertPg = "INSERT INTO person (id, firstName, lastName, age , street, emaill ) VALUES ( :id_p ,:firstName_p ,:lastName_p ,:age_p ,:street_p, :emaill_p ); ";
 		
 	   NamedParameterJdbcTemplate  namedJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplatePg);
 		
@@ -39,8 +39,9 @@ public class DBWriter implements ItemWriter<Person>  {
 					.addValue("firstName_p", item.getFirstName() )
 					.addValue("lastName_p", item.getLastName())
 					.addValue("age_p", item.getAge())
-					.addValue("street_p", item.getStreet() );  
-		
+					.addValue("street_p", item.getStreet() )
+					.addValue("emaill_p", item.getEmaill() );  
+		             
 		namedJdbcTemplate.update(sqlInsertPg, params);
 					
 		//jdbcTemplatePg.update(sqlInsertPg,params);

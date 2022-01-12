@@ -34,7 +34,7 @@ public class DBReader  implements ItemReader<Person> {
 	
 	public void feachPeaple() {
 		
-		String mysqlSQL = "SELECT  id , age , first_name  , last_name  , street from person p   ;";
+		String mysqlSQL = "SELECT  id , age , first_name  , last_name  , emaill,  street from person p   ;";
 		   // Person person =     jdbcTemplateMySql.queryForObject(mysqlSQL,  Person.class);  
 		    
 		    
@@ -48,6 +48,7 @@ public class DBReader  implements ItemReader<Person> {
 		        		     person.setFirstName(rs.getString("first_name"));
 		        	         person.setLastName(rs.getString("last_name"));
 		        	         person.setStreet(rs.getString("street"));
+		        	         person.setEmaill( rs.getString("emaill"));
 		        	        return person;  
 		        	   }  
 		        	   });  
